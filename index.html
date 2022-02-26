@@ -25,7 +25,7 @@
             <form id="req-form">
                 <!-- url input section -->
                 <div class="grid">
-                    <select name="method">
+                    <select id="method" name="method">
                         <option>GET</option>
                         <option>POST</option>
                         <option>PUT</option>
@@ -95,7 +95,11 @@
                         </label>
                     </div>
 
-                    <!-- TODO: headers & body -->
+                    <!-- headers section -->
+                    <label for="headers">
+                        Headers
+                        <textarea id="headers" name="headers" rows="4" disabled></textarea>
+                    </label>
                 </details>
             </form>
         </main>
