@@ -1,11 +1,10 @@
-let options = {};
-
 let reqForm = document.getElementById('req-form');
 
 async function fetchUrl(event) {
     event.preventDefault();
 
     let reqData = new FormData(reqForm);
+    let options = {};
     
     try {
         let resp = await fetch(reqData.get('url'), options);

@@ -23,6 +23,7 @@
 
         <main class="container">
             <form id="req-form">
+                <!-- url input section -->
                 <div class="grid">
                     <select name="method">
                         <option>GET</option>
@@ -35,6 +36,67 @@
     
                     <button type="submit">Send</button>
                 </div>
+
+                <!-- options section -->
+                <details>
+                    <summary>Options</summary>
+
+                    <div class="grid">
+                        <label for="mode">
+                            Mode
+                            <select id="mode" name="mode">
+                                <option>no-cors</option>
+                                <option selected>cors</option>
+                                <option>same-origin</option>
+                            </select>
+                        </label>
+
+                        <label for="cache">
+                            Cache
+                            <select name="cache">
+                                <option>default</option>
+                                <option>no-cache</option>
+                                <option>reload</option>
+                                <option>force-cache</option>
+                                <option>only-if-cached</option>
+                            </select>
+                        </label>
+
+                        <label for="credentials">
+                            Credentials
+                            <select name="credentials">
+                                <option>include</option>
+                                <option selected>same-origin</option>
+                                <option>omit</option>
+                            </select>
+                        </label>
+
+                        <label for="redirect">
+                            Redirect
+                            <select name="redirect">
+                                <option>manual</option>
+                                <option selected>follow</option>
+                                <option>error</option>
+                            </select>
+                        </label>
+
+                        <label for="referrer-policy">
+                            Referrer Policy
+                            <select name="referrer-policy">
+                                <option>no-referrer</option>
+                                <option selected>no-referrer-when-downgrade</option>
+                                <option>origin</option>
+                                <option>origin-when-cross-origin</option>
+                                <option>same-origin</option>
+                                <option>strict-origin</option>
+                                <option>strict-origin-when-cross-origin</option>
+                                <option>unsafe-url</option>
+                            </select>
+                        </label>
+                    </div>
+
+                    <!-- TODO: headers & body -->
+                </details>
             </form>
         </main>
     </body>
