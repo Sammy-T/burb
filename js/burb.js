@@ -1,6 +1,8 @@
 let reqForm = document.getElementById('req-form');
 let methodSelect = document.getElementById('method');
+let headerSwitch = document.getElementById('headers-switch');
 let headersArea = document.getElementById('headers');
+let bodyArea = document.getElementById('body');
 
 async function fetchUrl(event) {
     event.preventDefault();
@@ -14,7 +16,7 @@ async function fetchUrl(event) {
         let respJson = await resp.json();
         console.log(respJson);
     } catch(e) {
-        console.error(`Unable to fetch ${reqUrl}`, e);
+        console.error(`Unable to fetch ${reqData.get('url')}`, e);
     }
 }
 
@@ -33,19 +35,23 @@ function buildRequestOpts(data) {
         referrerPolicy: data.get('referrer-policy')
     };
 
-    if(data.has('headers')) {
-        opts.headers = JSON.parse(data.get('headers'));
-    }
+    if(data.has('headers')) opts.headers = JSON.parse(data.get('headers'));
+    if(data.has('body')) opts.body = data.get('body');
 
     return opts;
+}
+
+/**
+ * Updates the request options ui based on the current selections.
+ */
+function updateOptState() {
+    headersArea.disabled = !headerSwitch.checked;
+    bodyArea.disabled = methodSelect.value === 'GET' || headersArea.disabled;
 }
 
 // Set the default text for the header options
 headersArea.textContent = '{\n\t"Content-type": "application/json; charset=UTF-8"\n}';
 
-methodSelect.addEventListener('change', event => {
-    // Disable the headers area when using a 'get' request
-    headersArea.disabled = event.target.value === 'GET';
-});
-
+headerSwitch.addEventListener('change', updateOptState);
+methodSelect.addEventListener('change', updateOptState);
 reqForm.addEventListener('submit', fetchUrl);
