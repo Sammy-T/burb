@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- TODO: Add meta description, etc. -->
+
+        <title>burb</title>
+
+        <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css">
+
+        <script src="js/burb.js" defer></script>
+    </head>
+
+    <body>
+        <nav>
+            <ul></ul>
+            <ul>
+                <li><strong>burb</strong></li>
+            </ul>
+            <ul></ul>
+        </nav>
+
+        <main class="container">
+            <form id="req-form">
+                <div class="grid">
+                    <select name="method">
+                        <option>GET</option>
+                        <option>POST</option>
+                        <option>PUT</option>
+                        <option>DELETE</option>
+                    </select>
+    
+                    <input type="url" name="url" placeholder="https://example.com" required>
+    
+                    <button type="submit">Send</button>
+                </div>
+            </form>
+        </main>
+    </body>
+</html>
