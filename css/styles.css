@@ -7,6 +7,14 @@ footer {
     justify-content: center;
 }
 
+footer a {
+    display: flex;
+}
+
+footer img {
+    padding: 0 5px;
+}
+
 .trim-pad {
     padding-top: 1rem;
     padding-bottom: 1rem;
