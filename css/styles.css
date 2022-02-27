@@ -7,3 +7,12 @@
 #response {
     white-space: pre-wrap;
 }
+
+.trim-pad {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+footer.trim-pad {
+    padding-bottom: 1.5rem;
+}
