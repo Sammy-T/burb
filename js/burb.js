@@ -1,8 +1,9 @@
-let reqForm = document.getElementById('req-form');
-let methodSelect = document.getElementById('method');
-let headerSwitch = document.getElementById('headers-switch');
-let headersArea = document.getElementById('headers');
-let bodyArea = document.getElementById('body');
+let reqForm = document.querySelector('#req-form');
+let methodSelect = document.querySelector('#method');
+let headerSwitch = document.querySelector('#headers-switch');
+let headersArea = document.querySelector('#headers');
+let bodyArea = document.querySelector('#body');
+let responseArea = document.querySelector('#response');
 
 async function fetchUrl(event) {
     event.preventDefault();
@@ -13,10 +14,14 @@ async function fetchUrl(event) {
     
     try {
         let resp = await fetch(reqData.get('url'), options);
-        let respJson = await resp.json();
-        console.log(respJson);
+        let respText = await resp.text();
+        
+        responseArea.textContent = respText;
     } catch(e) {
-        console.error(`Unable to fetch ${reqData.get('url')}`, e);
+        let errorMsg = `Unable to fetch ${reqData.get('url')}`;
+
+        console.error(errorMsg, e);
+        responseArea.textContent = errorMsg;
     }
 }
 
