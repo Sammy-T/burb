@@ -1,11 +1,10 @@
-@media (min-width: 992px) {
-    .url-bar {
-        grid-template-columns: 1fr 50% 1fr;
-    }
-}
-
 #response {
     white-space: pre-wrap;
+}
+
+footer {
+    display: flex;
+    justify-content: center;
 }
 
 .trim-pad {
@@ -15,4 +14,10 @@
 
 footer.trim-pad {
     padding-bottom: 1.5rem;
+}
+
+@media (min-width: 992px) {
+    .url-bar {
+        grid-template-columns: 1fr 50% 1fr;
+    }
 }
