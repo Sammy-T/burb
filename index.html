@@ -8,6 +8,7 @@
         <title>burb</title>
 
         <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css">
+        <link rel="stylesheet" href="css/styles.css">
 
         <script src="js/burb.js" defer></script>
     </head>
@@ -24,7 +25,7 @@
         <main class="container">
             <form id="req-form">
                 <!-- url input section -->
-                <div class="grid">
+                <div class="grid url-bar">
                     <select id="method" name="method">
                         <option>GET</option>
                         <option>POST</option>
@@ -110,7 +111,7 @@
                 </details>
             </form>
 
-            <article id="response" style="white-space: pre-wrap;">
+            <article id="response">
                 <p>Build and test url requests.</p>
             </article>
         </main>
