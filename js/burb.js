@@ -14,15 +14,44 @@ async function fetchUrl(event) {
     
     try {
         let resp = await fetch(reqData.get('url'), options);
-        let respText = await resp.text();
-        
-        responseArea.textContent = respText;
+        parseResponse(resp);
     } catch(e) {
         let errorMsg = `Unable to fetch ${reqData.get('url')}`;
-
         console.error(errorMsg, e);
-        responseArea.textContent = errorMsg;
+
+        responseArea.innerHTML = ''; // Clear any previous content
+        responseArea.appendChild(document.createElement('p'));
+        responseArea.querySelector('p').textContent = errorMsg;
     }
+}
+
+/**
+ * Parses the response according to its content-type and displays the result
+ * inside the Response Area element.
+ * @param {*} response 
+ */
+async function parseResponse(response) {
+    let parsed;
+    let contentType = response.headers.get('content-type').toLowerCase();
+    console.log(`response content-type: ${contentType}`);
+
+    responseArea.innerHTML = ''; // Clear any previous content
+
+    if(contentType.includes('json')) {
+        parsed = await response.json();
+        responseArea.appendChild(document.createElement('p'));
+        responseArea.querySelector('p').textContent = JSON.stringify(parsed, null, '\t');
+    } else if(contentType.includes('image')) {
+        parsed = await response.blob();
+        responseArea.appendChild(document.createElement('img'));
+        responseArea.querySelector('img').src = URL.createObjectURL(parsed);
+    } else {
+        parsed = await response.text(); 
+        responseArea.appendChild(document.createElement('p'));
+        responseArea.querySelector('p').textContent = parsed;
+    }
+
+    console.log(parsed);
 }
 
 /**
