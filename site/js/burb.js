@@ -104,11 +104,18 @@ function displayError(err) {
 function updateOptState() {
     headersArea.disabled = !headerSwitch.checked;
     bodyArea.disabled = methodSelect.value === 'GET' || headersArea.disabled;
+    bodyArea.placeholder = bodyArea.disabled ? 'Headers must be enabled': '';
 }
 
-// Set the default text for the header options
-headersArea.textContent = '{\n\t"Content-type": "application/json; charset=UTF-8"\n}';
+function init() {
+    updateOptState();
+    
+    // Set the default text for the header options
+    headersArea.textContent = '{\n\t"Content-type": "application/json; charset=UTF-8"\n}';
 
-headerSwitch.addEventListener('change', updateOptState);
-methodSelect.addEventListener('change', updateOptState);
-reqForm.addEventListener('submit', fetchUrl);
+    headerSwitch.addEventListener('change', updateOptState);
+    methodSelect.addEventListener('change', updateOptState);
+    reqForm.addEventListener('submit', fetchUrl);
+}
+
+init();
