@@ -37,8 +37,16 @@ async function parseResponse(response) {
     let contentType = response.headers.get('content-type')?.toLowerCase();
 
     if(!contentType) {
+        let headersStr = 'Headers {';
+        for(let entry of response.headers.entries()) {
+            headersStr +=  `\n${entry.join(': ')}`;
+        }
+        headersStr += ' }';
+
         const headerErr = new Error('Unknown response: Header content-type missing');
-        console.error(headerErr);
+        console.error(`${headerErr}\n${headersStr}`);
+        console.warn('Returned response\n%o\n%s', response, await response.text());
+
         displayError(headerErr);
         return;
     }
