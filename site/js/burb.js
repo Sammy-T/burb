@@ -37,7 +37,7 @@ async function parseResponse(response) {
     let contentType = response.headers.get('content-type')?.toLowerCase();
 
     if(!contentType) {
-        const headerErr = new Error('Response header content-type missing');
+        const headerErr = new Error('Unknown response: Header content-type missing');
         console.error(headerErr);
         displayError(headerErr);
         return;
