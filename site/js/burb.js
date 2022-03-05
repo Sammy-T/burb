@@ -14,14 +14,15 @@ async function fetchUrl(event) {
     
     try {
         let resp = await fetch(reqData.get('url'), options);
+        if(!resp.ok) throw new Error('Network response was not ok');
+
         parseResponse(resp);
     } catch(e) {
-        let errorMsg = `Unable to fetch ${reqData.get('url')}`;
-        console.error(errorMsg, e);
+        console.error(`Unable to fetch '${reqData.get('url')}'`, e);
 
         responseArea.innerHTML = ''; // Clear any previous content
         responseArea.appendChild(document.createElement('p'));
-        responseArea.querySelector('p').textContent = errorMsg;
+        responseArea.querySelector('p').textContent = e.message;
     }
 }
 
