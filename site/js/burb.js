@@ -14,7 +14,7 @@ async function fetchUrl(event) {
     
     try {
         let resp = await fetch(reqData.get('url'), options);
-        if(!resp.ok) throw new Error('Network response was not ok');
+        if(!resp.ok) throw new Error(`${resp.status}: Network response was not ok`);
 
         parseResponse(resp);
     } catch(e) {
