@@ -5,6 +5,10 @@ let headersArea = document.querySelector('#headers');
 let bodyArea = document.querySelector('#body');
 let responseArea = document.querySelector('#response');
 
+const templateResp = document.querySelector('#template-resp');
+const templateRespImg = document.querySelector('#template-resp-img');
+const templateRespErr = document.querySelector('#template-resp-err');
+
 async function fetchUrl(event) {
     event.preventDefault();
 
@@ -19,10 +23,7 @@ async function fetchUrl(event) {
         parseResponse(resp);
     } catch(e) {
         console.error(`Unable to fetch '${reqData.get('url')}'`, e);
-
-        responseArea.innerHTML = ''; // Clear any previous content
-        responseArea.appendChild(document.createElement('p'));
-        responseArea.querySelector('p').textContent = e.message;
+        displayError(e);
     }
 }
 
@@ -32,26 +33,35 @@ async function fetchUrl(event) {
  * @param {*} response 
  */
 async function parseResponse(response) {
-    let parsed;
-    let contentType = response.headers.get('content-type').toLowerCase();
+    let parsed, respEl;
+    let contentType = response.headers.get('content-type')?.toLowerCase();
+
+    if(!contentType) {
+        const headerErr = new Error('Response header content-type missing');
+        console.error(headerErr);
+        displayError(headerErr);
+        return;
+    }
+
     console.log(`response content-type: ${contentType}`);
 
     responseArea.innerHTML = ''; // Clear any previous content
 
     if(contentType.includes('json')) {
         parsed = await response.json();
-        responseArea.appendChild(document.createElement('p'));
-        responseArea.querySelector('p').textContent = JSON.stringify(parsed, null, '\t');
+        respEl = templateResp.content.firstElementChild.cloneNode(true);
+        respEl.textContent = JSON.stringify(parsed, null, '\t');
     } else if(contentType.includes('image')) {
         parsed = await response.blob();
-        responseArea.appendChild(document.createElement('img'));
-        responseArea.querySelector('img').src = URL.createObjectURL(parsed);
+        respEl = templateRespImg.content.firstElementChild.cloneNode(true);
+        respEl.src = URL.createObjectURL(parsed);
     } else {
         parsed = await response.text(); 
-        responseArea.appendChild(document.createElement('p'));
-        responseArea.querySelector('p').textContent = parsed;
+        respEl = templateResp.content.firstElementChild.cloneNode(true);
+        respEl.textContent = parsed;
     }
 
+    responseArea.appendChild(respEl);
     console.log(parsed);
 }
 
@@ -74,6 +84,18 @@ function buildRequestOpts(data) {
     if(data.has('body')) opts.body = data.get('body');
 
     return opts;
+}
+
+/**
+ * Displays the error message in the response area.
+ * @param {Error} err 
+ */
+function displayError(err) {
+    responseArea.innerHTML = ''; // Clear any previous content
+
+    let errorEl = templateRespErr.content.firstElementChild.cloneNode(true);
+    errorEl.textContent = err.message;
+    responseArea.appendChild(errorEl);
 }
 
 /**

@@ -2,6 +2,10 @@
     white-space: pre-wrap;
 }
 
+.err-msg {
+    color: var(--del-color);
+}
+
 footer {
     display: flex;
     justify-content: center;
