@@ -32,4 +32,8 @@ footer.trim-pad {
     .url-bar {
         grid-template-columns: 1fr 50% 1fr;
     }
+
+    .reset-area {
+        grid-template-columns: 75% 1fr;
+    }
 }
