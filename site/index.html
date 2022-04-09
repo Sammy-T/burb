@@ -37,7 +37,7 @@
         <main class="container trim-pad">
             <form id="req-form">
                 <!-- url input section -->
-                <div class="grid url-bar">
+                <div class="grid req-bar">
                     <select id="method" name="method">
                         <option>GET</option>
                         <option>POST</option>
@@ -45,7 +45,13 @@
                         <option>DELETE</option>
                     </select>
     
-                    <input type="url" name="url" placeholder="https://example.com" required>
+                    <div class="grid url-bar">
+                        <input type="url" name="url" placeholder="https://example.com" required>
+                        
+                        <a href="#" role="button" id="edit-url" class="secondary">
+                            <img src="img/text-box-edit.svg" alt="edit url">
+                        </a>
+                    </div>
     
                     <button type="submit">Send</button>
                 </div>
