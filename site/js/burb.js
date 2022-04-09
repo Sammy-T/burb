@@ -1,9 +1,12 @@
-let reqForm = document.querySelector('#req-form');
-let methodSelect = document.querySelector('#method');
-let headerSwitch = document.querySelector('#headers-switch');
-let headersArea = document.querySelector('#headers');
-let bodyArea = document.querySelector('#body');
-let responseArea = document.querySelector('#response');
+const reqForm = document.querySelector('#req-form');
+const methodSelect = document.querySelector('#method');
+const editUrlBtn = document.querySelector('#edit-url');
+const headerSwitch = document.querySelector('#headers-switch');
+const headersArea = document.querySelector('#headers');
+const bodyArea = document.querySelector('#body');
+const responseArea = document.querySelector('#response');
+
+const modalEditUrl = document.querySelector('#edit-url-modal');
 
 const templateResp = document.querySelector('#template-resp');
 const templateRespImg = document.querySelector('#template-resp-img');
@@ -115,8 +118,52 @@ function updateOptState() {
     bodyArea.placeholder = bodyArea.disabled ? 'Headers must be enabled': '';
 }
 
+function initModals() {
+    const modals = document.querySelectorAll('dialog');
+
+    function hideModals() {
+        modals.forEach(m => m.removeAttribute('open'));
+    }
+
+    // Display the 'edit url' modal when clicked
+    editUrlBtn.addEventListener('click', event => {
+        event.preventDefault();
+        modalEditUrl.setAttribute('open', '')
+    });
+
+    // Hide modal(s) when the modal background or cancel button is clicked
+    modals.forEach(modal => {
+        modal.addEventListener('click', event => {
+            if(event.target.tagName.toLowerCase() !== 'dialog') return;
+            hideModals();
+        });
+    });
+
+    const cancelBtns = document.querySelectorAll('a[href="#cancel"]');
+    cancelBtns.forEach(cancelBtn => {
+        cancelBtn.addEventListener('click', event => {
+            event.preventDefault();
+            hideModals();
+        });
+    });
+
+    const confirmBtns = document.querySelectorAll('a[href="#confirm"]');
+    confirmBtns.forEach(confirmBtn => {
+        confirmBtn.addEventListener('click', event => {
+            event.preventDefault();
+            
+            if(modalEditUrl.contains(event.target)) {
+                console.log('edit url confirm');
+            }
+
+            hideModals();
+        });
+    });
+}
+
 function init() {
     updateOptState();
+    initModals();
     
     // Set the default text for the header options
     headersArea.textContent = '{\n\t"Content-type": "application/json; charset=UTF-8"\n}';
