@@ -39,6 +39,25 @@ footer.trim-pad {
     padding-bottom: 1.5rem;
 }
 
+dialog footer {
+    justify-content: end;
+}
+
+.param {
+    grid-template-columns: 1fr auto 1fr; 
+}
+
+#param-field .param p {
+    display: flex;
+    align-items: center;
+    margin-bottom: var(--spacing);
+}
+
+.field-action-area {
+    display: grid;
+    grid-template-columns: 1fr auto;
+}
+
 @media (min-width: 992px) {
     .req-bar {
         grid-template-columns: 1fr 50% 1fr;
