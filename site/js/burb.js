@@ -109,6 +109,25 @@ function displayError(err) {
     responseArea.appendChild(errorEl);
 }
 
+function displayEditUrlModal() {
+    // Clear any previous param elements
+    const prevEls = modalEditUrl.querySelectorAll('.param');
+    prevEls.forEach(el => el.remove());
+
+    const paramField = modalEditUrl.querySelector('#param-field');
+    const templateParam = document.querySelector('#template-param');
+
+    // Add a param element when clicked
+    modalEditUrl.querySelector('#add-param').onclick = event => {
+        event.preventDefault();
+
+        const paramEl = templateParam.content.firstElementChild.cloneNode(true);
+        paramField.appendChild(paramEl);
+    };
+
+    modalEditUrl.setAttribute('open', ''); // Display the modal
+}
+
 /**
  * Updates the request options ui based on the current selections.
  */
@@ -128,7 +147,7 @@ function initModals() {
     // Display the 'edit url' modal when clicked
     editUrlBtn.addEventListener('click', event => {
         event.preventDefault();
-        modalEditUrl.setAttribute('open', '')
+        displayEditUrlModal();
     });
 
     // Hide modal(s) when the modal background or cancel button is clicked
