@@ -109,6 +109,10 @@ function displayError(err) {
     responseArea.appendChild(errorEl);
 }
 
+/**
+ * Displays the 'edit url' modal and 
+ * sets up the ui according to the main form's request url.
+ */
 function displayEditUrlModal() {
     // Clear any previous param elements
     const prevEls = modalEditUrl.querySelectorAll('.param');
@@ -135,8 +139,10 @@ function displayEditUrlModal() {
     const url = (reqUrl.value !== '') ? new URL(reqUrl.value) : null;
     console.log(url);
 
+    // Set the modal url
     modalUrl.value = (url) ? `${url.origin}${url.pathname}` : '';
 
+    // Build the param elements
     if(url?.searchParams.toString()) {
         for(const [key, value] of url.searchParams) {
             const paramInputs = addParamEl().querySelectorAll('input');
@@ -148,6 +154,32 @@ function displayEditUrlModal() {
     }
 
     modalEditUrl.setAttribute('open', ''); // Display the modal
+}
+
+/**
+ * Reads the values set in the 'edit url' modal,
+ * builds the new url, and sets the value
+ * of the main form's url input.
+ */
+function processUrlEdits() {
+    const reqUrl = reqForm.querySelector('input[type="url"]');
+    const modalUrl = modalEditUrl.querySelector('input[type="url"]');
+    const paramEls = modalEditUrl.querySelectorAll('.param');
+
+    const params = new URLSearchParams();
+
+    // Read the params
+    paramEls.forEach(el => {
+        const paramInputs = el.querySelectorAll('input');
+        const [key, value] = [paramInputs[0].value, paramInputs[1].value];
+        if(key !== '') params.append(key, value);
+    });
+
+    // Build the url and set main form's url input value
+    let url = modalUrl.value;
+    if(params.toString().length > 0) url += `?${params.toString()}`;
+
+    reqUrl.value = url;
 }
 
 /**
@@ -188,13 +220,16 @@ function initModals() {
         });
     });
 
+    // Set up the confirm action(s)
     const confirmBtns = document.querySelectorAll('a[href="#confirm"]');
     confirmBtns.forEach(confirmBtn => {
         confirmBtn.addEventListener('click', event => {
             event.preventDefault();
             
+            // If the clicked 'confirm' button is a descendant of 
+            // the 'edit url' modal, process the url edits
             if(modalEditUrl.contains(event.target)) {
-                console.log('edit url confirm');
+                processUrlEdits();
             }
 
             hideModals();
