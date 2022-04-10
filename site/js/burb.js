@@ -117,13 +117,35 @@ function displayEditUrlModal() {
     const paramField = modalEditUrl.querySelector('#param-field');
     const templateParam = document.querySelector('#template-param');
 
+    function addParamEl() {
+        const paramEl = templateParam.content.firstElementChild.cloneNode(true);
+        paramField.appendChild(paramEl);
+        return paramEl;
+    }
+
     // Add a param element when clicked
     modalEditUrl.querySelector('#add-param').onclick = event => {
         event.preventDefault();
-
-        const paramEl = templateParam.content.firstElementChild.cloneNode(true);
-        paramField.appendChild(paramEl);
+        addParamEl();
     };
+
+    const reqUrl = reqForm.querySelector('input[type="url"]');
+    const modalUrl = modalEditUrl.querySelector('input[type="url"]');
+
+    const url = (reqUrl.value !== '') ? new URL(reqUrl.value) : null;
+    console.log(url);
+
+    modalUrl.value = (url) ? `${url.origin}${url.pathname}` : '';
+
+    if(url?.searchParams.toString()) {
+        for(const [key, value] of url.searchParams) {
+            const paramInputs = addParamEl().querySelectorAll('input');
+            paramInputs[0].value = key;
+            paramInputs[1].value = value;
+        }
+    } else {
+        addParamEl();
+    }
 
     modalEditUrl.setAttribute('open', ''); // Display the modal
 }
