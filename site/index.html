@@ -37,7 +37,7 @@
         <main class="container trim-pad">
             <form id="req-form">
                 <!-- url input section -->
-                <div class="grid url-bar">
+                <div class="grid req-bar">
                     <select id="method" name="method">
                         <option>GET</option>
                         <option>POST</option>
@@ -45,7 +45,13 @@
                         <option>DELETE</option>
                     </select>
     
-                    <input type="url" name="url" placeholder="https://example.com" required>
+                    <div class="grid url-bar">
+                        <input type="url" name="url" placeholder="https://example.com" required>
+
+                        <a href="#" role="button" id="edit-url" class="secondary">
+                            <img src="img/text-box-edit.svg" alt="edit url">
+                        </a>
+                    </div>
     
                     <button type="submit">Send</button>
                 </div>
@@ -131,6 +137,46 @@
             <article id="response" class="trim-pad">
                 <p>Build and send url requests.</p>
             </article>
+
+            <!-- edit url modal -->
+            <dialog id="edit-url-modal">
+                <article>
+                    <h3>Edit url</h3>
+
+                    <form id="edit-url-form">
+                        <input type="url" name="url" placeholder="https://example.com" required>
+
+                        <fieldset id="param-field">
+                            <legend>Parameters</legend>
+    
+                            <div class="grid param">
+                                <input type="text" placeholder="parameter name">
+                                <p>=</p>
+                                <input type="text" placeholder="parameter value">
+                            </div>
+                        </fieldset>
+
+                        <div class="field-action-area">
+                            <div></div>
+                            <button id="add-param">Add</button>
+                        </div>
+                    </form>
+
+                    <footer>
+                        <a href="#cancel" role="button" class="secondary">Cancel</a>
+                        <a href="#confirm" role="button">Confirm</a>
+                    </footer>
+                </article>
+            </dialog>
+
+            <!-- param template -->
+            <template id="template-param">
+                <div class="grid param">
+                    <input type="text" placeholder="parameter name">
+                    <p>=</p>
+                    <input type="text" placeholder="parameter value">
+                </div>
+            </template>
 
             <!-- response templates -->
             <template id="template-resp">
