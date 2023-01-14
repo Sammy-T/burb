@@ -1,5 +1,6 @@
 const reqForm = document.querySelector('#req-form');
 const methodSelect = document.querySelector('#method');
+const urlInput = document.querySelector('#req-form input[name=url]');
 const editUrlBtn = document.querySelector('#edit-url');
 const headerSwitch = document.querySelector('#headers-switch');
 const headersArea = document.querySelector('#headers');
@@ -183,6 +184,23 @@ function processUrlEdits() {
 }
 
 /**
+ * Checks the url input for a protocol. If one isn't found, adds a 'https://' protocol 
+ * to the url input value. The form will not submit without a protocol in the url.
+ */
+function checkUrlProtocol() {
+    const url = urlInput.value.trim();
+
+    if(url === '') return; // Ignore empty input
+
+    // Check if the url has a protocol and return early if one is found
+    const protocolRe = /^[a-z]+:\/\//;
+    if(protocolRe.test(url)) return;
+
+    // Add the 'https://' protocol to the input value
+    urlInput.value = `https://${url}`;
+}
+
+/**
  * Updates the request options ui based on the current selections.
  */
 function updateOptState() {
@@ -244,6 +262,8 @@ function init() {
     // Set the default text for the header options
     headersArea.textContent = '{\n\t"Content-type": "application/json; charset=UTF-8"\n}';
 
+    urlInput.addEventListener('keydown', (event) => {if(event.key === 'Enter') checkUrlProtocol()});
+    urlInput.addEventListener('focusout', checkUrlProtocol);
     headerSwitch.addEventListener('change', updateOptState);
     methodSelect.addEventListener('change', updateOptState);
     reqForm.addEventListener('submit', fetchUrl);
