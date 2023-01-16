@@ -47,23 +47,19 @@ async function parseResponse(response) {
         }
         headersStr += ' }';
 
-        const headerErr = new Error('Unknown response: Header content-type missing');
-        console.error(`${headerErr}\n${headersStr}`);
-        console.warn('Returned response\n%o\n%s', response, await response.text());
-
-        displayError(headerErr);
-        return;
+        const headerWarning = 'Unknown response: Header \'content-type\' missing';
+        console.warn(`${headerWarning}\n${headersStr}`);
     }
 
     console.log(`response content-type: ${contentType}`);
 
     responseArea.innerHTML = ''; // Clear any previous content
 
-    if(contentType.includes('json')) {
+    if(contentType?.includes('json')) {
         parsed = await response.json();
         respEl = templateResp.content.firstElementChild.cloneNode(true);
         respEl.textContent = JSON.stringify(parsed, null, '\t');
-    } else if(contentType.includes('image')) {
+    } else if(contentType?.includes('image')) {
         parsed = await response.blob();
         respEl = templateRespImg.content.firstElementChild.cloneNode(true);
         respEl.src = URL.createObjectURL(parsed);
